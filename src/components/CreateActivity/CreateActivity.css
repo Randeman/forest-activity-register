@@ -1,0 +1,102 @@
+#delete {
+	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	background-color:#7892c2;
+	border-radius:5px;
+	border:2px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:4px 25px;
+	text-decoration:none;
+	text-shadow:4px -1px 7px #283966;
+	display: inline-block; 
+	cursor: pointer;
+	margin: 10px 10px 10px 0;
+}
+#delete:hover {
+	background:linear-gradient(to bottom, #ca2929 5%, #c46161 100%);
+	background-color:#ca2929;
+}
+#delete:active {
+	position:relative;
+	top:1px;
+}
+
+#load {
+	color: #306108;
+	font-size: 15px;
+	border-radius: 5px;
+	border: solid 2px #268a16;
+	text-shadow: 1px 1px 0px #aade7c;
+	box-shadow: inset 1px 1px 2px 0px #c9efab;
+	text-decoration: none;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	font-family: Arial;
+	font-weight: bold;
+	background: linear-gradient(180deg, #77d42a 10%, #5cb811 100%);
+	display: inline-block;
+	align-items: center;
+	margin: 10px 10px 10px 0;
+	padding:4px 25px;
+	
+}
+#load:hover {
+	background: linear-gradient(180deg, #5cb811 10%, #77d42a 100%);
+}
+
+.actions
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
+
+a:link {
+	color: rgb(97, 54, 25);
+  }
+
+  #create {
+	background:linear-gradient(to bottom, #eea564 5%, #864f1f 100%);
+	background-color:#e67e22;
+	border-radius:5px;
+	border:2px solid #c77125;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:4px 25px;
+	text-decoration:none;
+	text-shadow:4px -1px 7px #e67e22;
+	display: inline-block; 
+	cursor: pointer;
+	margin: 10px 10px 10px 0;
+}
+#create:hover {
+	background:linear-gradient(to bottom, #804615 5%, #f59b4c 100%);
+	background-color:#804715;
+}
+#create:active {
+	position:relative;
+	top:1px;
+}
+label{
+	background:linear-gradient(to bottom, #f7f794 5%, #caca00 100%);
+	background-color:#f8f806;
+	border-radius:5px;
+	border:2px solid #a8a800;
+	margin: 10px 10px 10px 0;
+	padding:1px 2px 1px 2px;
+}
+option, select, input[type="datetime-local"], input[type="text"],  input[type="tel"]{
+	margin: 10px 30px 10px 0px;
+	padding:1px 2px 1px 2px;
+}
+
