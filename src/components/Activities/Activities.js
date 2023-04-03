@@ -7,19 +7,19 @@ import GeoJSON from "ol/format/GeoJSON";
 import { Controls, FullScreenControl, MousePositionControl } from "../Map/Controls";
 import { featureStyles as FeatureStyles } from "../Map/Features/Styles";
 
-const mapURL = "http://localhost:3030/jsonstore/geoobjects/";
+const mapURL = "http://localhost:3030/jsonstore/figures/";
 const activitiesURL = "http://localhost:3030/jsonstore/activities/";
 
-const Activities = () => {
+export const Activities = () => {
 
-  const [geoObjects, setGeoObjects] = useState([]);
+  const [figures, setFigures] = useState([]);
   const [activities, setActivities] = useState([]);
   const [isLoadedMap, setIsLoadedMap] = useState(false);
 
   useEffect(() => {
     fetch(mapURL)
       .then(res => res.ok && res.status !== 204 ? res.json() : {})
-      .then(data => setGeoObjects(state => Object.values(data)));
+      .then(data => setFigures(state => Object.values(data)));
       setIsLoadedMap(true);
   }, [])
 
@@ -36,7 +36,7 @@ const Activities = () => {
     <div>
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
-        {(!!geoObjects.length && isLoadedMap) && geoObjects.map(g =>
+        {(!!figures.length && isLoadedMap) && figures.map(g =>
           <VectorLayer key={g._id}
             source={vector({
               features: new GeoJSON()
@@ -51,9 +51,8 @@ const Activities = () => {
       </Controls>
       </div>
       {(!activities.length && isLoadedMap) && <div>"NO ACTIVITIES YET ..."</div>}
-      {(!!activities.length && isLoadedMap) && geoObjects.map(g => <div>`{JSON.stringify(g)}`</div>) }
+      {(!!activities.length && isLoadedMap) && figures.map(g => <div>`{JSON.stringify(g)}`</div>) }
     </>
   )
 }
 
-export default Activities;

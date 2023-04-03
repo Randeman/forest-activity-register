@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import "./Map.css";
-import MapContext from "../Map/MapContext";
+import MapContext from "../../contexts/MapContext";
 
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';

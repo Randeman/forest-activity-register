@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { MousePosition } from "ol/control";
-import MapContext from "../MapContext";
+import MapContext from "../../../contexts/MapContext";
 import * as olCoordinate from 'ol/coordinate';
 
 const MousePositionControl = () => {

@@ -26,7 +26,7 @@ export const featureStyles = {
     stroke: new Stroke({
         color: "yellow",
         lineDash: [9],
-        width: 3
+        width: 3,
       }),
     })
 };

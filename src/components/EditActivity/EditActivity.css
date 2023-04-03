@@ -48,31 +48,6 @@
 	background: linear-gradient(180deg, #5cb811 10%, #77d42a 100%);
 }
 
-#zoom {
-	color: #3b2f17;
-	background-color:orange;
-	font-size: 15px;
-	border-radius: 5px;
-	border: solid 2px #9b690c;
-	text-shadow: 1px 1px 0px orangered;
-	box-shadow: inset 1px 1px 2px 0px #f7b709;
-	text-decoration: none;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	font-family: Arial;
-	font-weight: bold;
-	background: linear-gradient(180deg, #ecb753 10%, #704a04 (93 7% 28%) 100%);
-	display: inline-block;
-	align-items: center;
-	margin: 10px 10px 10px 0;
-	padding:4px 25px;
-	
-}
-#zoom:hover {
-	background: linear-gradient(180deg, #74551d 10%, #df9b1e 100%);
-}
-
 .actions
 {
     width:100%;
@@ -87,7 +62,7 @@ a:link {
 	color: rgb(97, 54, 25);
   }
 
-  #submit {
+  #create {
 	background:linear-gradient(to bottom, #eea564 5%, #864f1f 100%);
 	background-color:#e67e22;
 	border-radius:5px;
@@ -104,11 +79,11 @@ a:link {
 	cursor: pointer;
 	margin: 10px 10px 10px 0;
 }
-#submit:hover {
+#create:hover {
 	background:linear-gradient(to bottom, #804615 5%, #f59b4c 100%);
 	background-color:#804715;
 }
-#submit:active {
+#create:active {
 	position:relative;
 	top:1px;
 }
@@ -123,10 +98,5 @@ label{
 option, select, input[type="datetime-local"], input[type="text"],  input[type="tel"]{
 	margin: 10px 30px 10px 0px;
 	padding:1px 2px 1px 2px;
-	width:20em
-}
-
-#create-form{
-	margin-bottom: 70px;
 }
 

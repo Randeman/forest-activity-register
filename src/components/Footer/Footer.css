@@ -1,0 +1,21 @@
+footer {
+    
+    bottom: 0;
+    position: fixed;
+    background-color: #67a50b;
+    text-align: center;
+    padding:10px 0;
+    width: 100%;
+ 
+ 
+}
+
+#scroll{
+    position: fixed;
+    font-size: 14px;
+    bottom: 10px;
+    right: 50px;
+    background-color: rgb(32, 73, 53);
+    color: #91ff00;
+    text-align: center;
+  }

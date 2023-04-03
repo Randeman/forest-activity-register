@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
@@ -7,26 +8,41 @@ import { Vector as VectorSource } from 'ol/source.js';
 import { Vector as VectorLayer } from 'ol/layer.js';
 import { get } from 'ol/proj.js';
 import GeoJSON from "ol/format/GeoJSON";
-import { osm } from "../Map/Source";
+import { osm, vector } from "../Map/Source";
 import { featureStyles as FeatureStyles } from "../Map/Features/Styles";
 import { Controls, FullScreenControl, MousePositionControl } from "../Map/Controls";
 import { Layers, TileLayer } from "../Map/Layers";
 import { fromLonLat } from 'ol/proj';
 
 import MapContext from "../../contexts/MapContext";
-import "./CreateActivity.css"
+import "./EditActivity.css"
+import { useService } from "../../hooks/useService";
+import { activityServiceFactory } from "../../services/activityService";
 
+export const EditActivity = ({onEditActivitySubmit}) => {
 
-export const CreateActivity = ({ onCreateActivitySubmit }) => {
-
-    const { register, handleSubmit, setValue, setError, formState: { errors } } = useForm({ criteriaMode: 'all' });
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm({criteriaMode: 'all'});
 
     const onSubmit = (data) => {
         console.log(data);
-        onCreateActivitySubmit(data);
+       onEditActivitySubmit(data);
 
     }
+    console.log(errors);
+
+    const { activityId } = useParams();
+    const activityService = useService(activityServiceFactory);
+    const [ {category, description, start, end, district, municipality, land, contactPerson, phoneNumber, ...values}, setValues ] = useState(null);
     
+    useEffect(() => {
+        activityService.getOne(activityId)
+            .then(result => {
+                setValues({category, description, start, end, district, municipality, land, contactPerson, phoneNumber});
+                setFigure({figure});
+                setCoordinates({coordinates})
+                setZoomPointCoordinates({zoomPointCoordinates})
+            });
+    }, [activityId]);
 
     const { map } = useContext(MapContext);
 
@@ -76,23 +92,6 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
             setValue("zoomPointCoordinates", zoomPointCoordinates)
         }
     }, [zoomPointCoordinates]);
-
-    const [district, setDistrict] = useState("");
-    const [municipality, setMunicipality] = useState("");
-    const [land, setLand] = useState("");
-    useEffect(() => {
-        if (!!zoomPointCoordinates) {
-            const url = "http://api.geonames.org/findNearbyPostalCodesJSON";
-            fetch(`${url}?lat=${zoomPointCoordinates[1]}&lng=${zoomPointCoordinates[0]}&maxRows=1&username=rutor`)
-                .then(res => res.json())
-                .then(data => {
-                    setDistrict(data.postalCodes["0"] ? data.postalCodes["0"]["adminName1"] || "None" : "None");
-                    setMunicipality(data.postalCodes["0"] ? data.postalCodes["0"]["adminName2"] || "None" : "None");
-                    setLand(data.postalCodes["0"] ? data.postalCodes["0"]["placeName"] || "None" : "None")
-                }).catch(err => console.log(err))
-                
-        }
-    }, [zoomPointCoordinates, district, municipality, land]);
 
     function addInteractions() {
 
@@ -179,10 +178,6 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
         vectorLayer.current.getSource().clear();
 
         setCoordinates("");
-        setZoomPointCoordinates("");
-        setDistrict("");
-        setMunicipality("");
-        setLand("");
         setGeomType(e.target.value)
 
         if (e.target.id === "geomType") return;
@@ -205,22 +200,25 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
         map.getView().setZoom(12);
     }
 
-
-    //onBlur={e => {window.confirm('If a figure has been drawn, it will be deleted!') && onFigureDelete(e)}}
-
     return (
         <>
-
-            <Layers>
+           <Layers>
                 <TileLayer source={osm()} zIndex={0} />
-                {/* <VectorLayer /> */}
+                {(isLoadedMap) && [figure].map(f =>
+          <VectorLayer key={f._id}
+            source={vector({
+              features: new GeoJSON()
+                .readFeatures(f, { featureProjection: get("EPSG:3857") })
+            })}
+            style={FeatureStyles[f.features[0].geometry.type]}
+          />)}
             </Layers>
             <Controls>
                 <FullScreenControl />
                 <MousePositionControl />
             </Controls>
             {isLoadedMap && <hr />}
-            {isLoadedMap && <form id="create-form" method="post" onSubmit={handleSubmit(onSubmit)}>
+            {isLoadedMap && <form id="edit-form" method="post" onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label>Geometry type </label>
                     <select id="geomType" value={geomType} onChange={e => onChangeGeomType(e)}>
@@ -232,15 +230,7 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
                     {["LineString", "Polygon"].includes(geomType) && <i >For free drawing press the Shift key</i>}
                 </div>
                 <label>Longitude/Latitude coordinates(EPSG:4326, WGS84)</label>
-                <textarea value={coordinates || ""} readOnly id="data" rows="6" style={{ width: "100%" }}></textarea>
-                <div>
-                    <label>District </label>
-                    <input value={district || ""}  type="text" placeholder="" {...register("district", { required: true, message: "This input is required." })} />
-                    <label>Municipality </label>
-                    <input value={municipality || ""}  type="text" placeholder="" {...register("municipality", { required: true, minLength: 3, message: "This input is required." })} />
-                    <label>Land </label>
-                    <input value={land || ""}  type="text" placeholder="" {...register("land", { required: true, message: "This input is required." })} />
-                </div>
+                <textarea value={coordinates} readOnly id="data" rows="6" style={{ width: "100%" }}></textarea>
                 <div className='actions'>
                     <button type="button" id="delete" onClick={(e) => onFigureDelete(e)} >
                         Delete current figure
@@ -268,24 +258,34 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
                         <option value="Another">Another</option>
                     </select>
                 </div>
+                <hr style={{ borderTop: "dotted 1px" }} />
                 <label>Description </label>
-                <textarea placeholder="Please enter a description for your activity" rows="6" style={{ width: "100%" }}
-                    {...register("description", { required: true, maxLength: 1000, message: "This input is more than 1000 characters." })} />
+                <textarea placeholder="Please enter a description for your activity" rows="6" style={{ width: "100%" }} 
+                {...register("description", { required: true, maxLength: 1000, message: "This input is more than 1000 characters." })} />
                 <div>
-                    
+                    <hr style={{ borderTop: "dotted 1px" }} />
                     <label>Start </label>
-                    <input type="datetime-local" placeholder="Start" {...register("start", { required: true, message: "This input is required." })} />
+                    <input type="datetime-local" placeholder="Start" {...register("start", { required: true, message: "This input is required."})} />
                     <label>End </label>
-                    <input type="datetime-local" placeholder="End" {...register("end", { required: true, message: "This input is required." })} />
+                    <input type="datetime-local" placeholder="End" {...register("end", { required: true , message: "This input is required."})} />
                 </div>
-                
+                <hr style={{ borderTop: "dotted 1px" }} />
+                <div>
+                    <label>District </label>
+                    <input type="text" placeholder="" {...register("district", { required: true, message: "This input is required." })} />
+                    <label>Municipality </label>
+                    <input type="text" placeholder="" {...register("municipality", { required: true, minLength: 3, message: "This input is required." })} />
+                    <label>Land </label>
+                    <input type="text" placeholder="" {...register("land", { required: true, message: "This input is required." })} />
+                </div>
+                <hr style={{ borderTop: "dotted 1px" }} />
                 <div>
                     <label>Contact person </label>
-                    <input type="text" placeholder="First and Last Name" {...register("contactPerson", { required: true, message: "This input is required." })} />
+                    <input type="text" placeholder="First and Last Name" {...register("contactPerson", { required: true, message: "This input is required."})} />
                     <label>Phone number </label>
-                    <input type="tel" placeholder="+359*********" {...register("phoneNumber", { required: true, message: "This input is required." })} />
+                    <input type="tel" placeholder="+359*********" {...register("phoneNumber", { required: true, message: "This input is required."})} />
                 </div>
-                <hr />
+                <hr style={{ borderTop: "dotted 1px" }} />
                 <ErrorMessage
                     errors={errors}
                     name="multipleErrorInput"
@@ -297,12 +297,10 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
                     }
                 />
                 <div className='actions'>
-                    <input id='submit' type="submit" value={"CREATE ACTIVITY"} />
+                    <input id='create' type="submit" value={"CREATE ACTIVITY"} />
                 </div>
+                <hr />
             </form>}
-            {isLoadedMap && <hr />}
-
         </>
     );
-}
-
+};
