@@ -4,7 +4,7 @@ import MapContext from "../../contexts/MapContext";
 
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
-import {fromLonLat} from 'ol/proj';
+import { fromLonLat } from 'ol/proj';
 
 
 const MapProvider = ({ children }) => {
@@ -45,10 +45,27 @@ const MapProvider = ({ children }) => {
         map.getView().setCenter(center)
     }, [center])
 
+    const onZoom = (zoomPointCoordinates) => {
+        if (!!zoomPointCoordinates) {
+            map.getView().setCenter(fromLonLat(zoomPointCoordinates));
+            map.getView().setZoom(14);
+        }
+    }
+
+
+    const [downloadLinkGeo, setDownloadLinkGeo] = useState('')
+    const onLoadFile = (figure) => {
+
+        const blob = new Blob([figure], { type: "aplication/json" });
+        if (downloadLinkGeo !== '') window.URL.revokeObjectURL(downloadLinkGeo)
+        setDownloadLinkGeo(window.URL.createObjectURL(blob));
+
+    }
+
 
 
     return (
-        <MapContext.Provider value={{ map }}>
+        <MapContext.Provider value={{ map, onZoom, onLoadFile, downloadLinkGeo }}>
             <div ref={mapRef} className="ol-map">{children}</div>
         </MapContext.Provider>
     )

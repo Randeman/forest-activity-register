@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { activityServiceFactory } from './services/activityService';
+//import { figureServiceFactory } from './services/figureService';
 
 import Navigation from "./components/Navigation/Navigation";
 import MapProvider from './components/Map/Map';
@@ -20,15 +21,17 @@ import "./App.css";
 const App = () => {
 
   const navigate = useNavigate();
+
   const [activities, setActivities] = useState([]);
   const activityService = activityServiceFactory(); //auth.accessToken
-
+  
   useEffect(() => {
     activityService.getAll()
       .then(result => {
         setActivities(result)
       })
   }, []);
+
 
   const onCreateActivitySubmit = async (data) => {
     const newActivity = await activityService.create(data);
@@ -46,6 +49,15 @@ const App = () => {
     navigate(`/activities/${values._id}`);
   }
 
+  const onDeleteActivitySubmit = async function (activityId) {
+    await activityService.delete(activityId);
+
+    setActivities(state => state.filter(x => x._id !== activityId)).map(x => x);
+
+    navigate("/activities");
+  }
+
+
   return (
     <>
       <AuthProvider>
@@ -61,7 +73,7 @@ const App = () => {
             <Route path='/register' element={<Register />} />
             <Route path='/activities' element={<Activities activities={activities} />} />
             <Route path='/create' element={<CreateActivity onCreateActivitySubmit={onCreateActivitySubmit} />} />
-            <Route path='/activities/:activityId' element={<ActivityDetails />} />
+            <Route path='/activities/:activityId' element={<ActivityDetails  onDeleteActivitySubmit={onDeleteActivitySubmit}/>} />
             <Route path='/activities/:activityId/edit' element={<EditActivity onEditActivitySubmit={onEditActivitySubmit} />} />
           </Routes>
         </MapProvider>

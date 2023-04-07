@@ -11,9 +11,10 @@ function Navigation() {
             {isAuthenticated && (
                     <div id="user">
                         <span>{userEmail}</span>
+                        <NavLink style={{marginLeft:"20px"}} to="/">Home</NavLink>
+                        <NavLink style={{marginLeft:"20px"}} to="/activities">Activities</NavLink>
                         <NavLink style={{marginLeft:"20px"}} to="/create">Create Activity</NavLink>
-                        <NavLink style={{marginLeft:"20px"}} to="/edit">Edit Activity</NavLink>
-                        <NavLink to="/logout">Logout</NavLink>
+                        <NavLink style={{marginLeft:"20px"}} to="/logout">Logout</NavLink>
                     </div>
                 )}
                 {!isAuthenticated && (
@@ -22,8 +23,6 @@ function Navigation() {
                         <NavLink style={{marginLeft:"20px"}} to="/activities">Activities</NavLink>
                         <NavLink style={{marginLeft:"20px"}} to="/login">Login</NavLink>
                         <NavLink style={{marginLeft:"20px"}} to="/register">Register</NavLink>
-                        <NavLink style={{marginLeft:"20px"}} to="/create">Create Activity</NavLink>
-                        <NavLink style={{marginLeft:"20px"}} to="/edit">Edit Activity</NavLink>
                     </div>
                 )}
         </nav>

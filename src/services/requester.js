@@ -20,20 +20,29 @@ const requester = async (method, token, url, data) => {
         };
     }
 
-    const response = await fetch(url, options);
+    try {
+        const response = await fetch(url, options);
 
-    if (response.status === 204) {
+        if (response.status === 204) {
+            return {};
+        }
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw result;
+        }
+
+        return result;
+
+    } catch (err) {
         return {};
     }
 
-    const result = await response.json();
+}
 
-    if (!response.ok) {
-        throw result;
-    }
 
-    return result;
-};
+
 
 export const requestFactory = (token) => {
     if (!token) {

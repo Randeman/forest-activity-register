@@ -1,26 +1,26 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from '@hookform/error-message';
 
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useForm } from "react-hook-form";
 
-const LoginFormKeys = {
-    Email: 'email',
-    Password: 'password'
-};
-
-export const Login = ({
-    // auth,
-}) => {
-    // const { onLoginSubmit } = auth;
+export const Login = () => {
+   
     const { onLoginSubmit } = useAuthContext();
-    const { values, changeHandler, onSubmit } = useForm({
-        [LoginFormKeys.Email]: '',
-        [LoginFormKeys.Password]: '',
-    }, onLoginSubmit);
+    
+
+    const { register, handleSubmit, formState: { errors } } = useForm({ criteriaMode: 'all' });
+
+    const onSubmit = (data) => {
+        console.log(data);
+        onLoginSubmit(data);
+
+    }
+
 
     return (
-        <section id="login-page" className="auth">
-            <form id="login" method="POST" onSubmit={onSubmit}>
+        <section id="login-page" className="auth" >
+            <form id="login" method="post" onSubmit={handleSubmit(onSubmit)}>
                 <div className="container">
                     <div className="brand-logo"></div>
                     <h1>Login</h1>
@@ -28,21 +28,29 @@ export const Login = ({
                     <input
                         type="email"
                         id="email"
-                        placeholder="Sokka@gmail.com"
-                        name={LoginFormKeys.Email}
-                        value={values[LoginFormKeys.Email]}
-                        onChange={changeHandler}
+                        {...register("email", { required: "*Please enter a email." })}
                     />
-
+                    {errors.email ? <p>{errors.email.message}</p> : <p></p>}
                     <label htmlFor="login-pass">Password:</label>
                     <input
                         type="password"
                         id="login-password"
-                        name={LoginFormKeys.Password}
-                        value={values[LoginFormKeys.Password]}
-                        onChange={changeHandler}
+                        {...register("password", { required: "Please enter a password.", 
+                        minLength: {value:3, message: "*Your password must be at least 3 characters."}})}
                     />
+                     <ErrorMessage
+                            errors={errors}
+                            name="password"
+                            render={({ messages }) =>
+                                messages &&
+                                Object.entries(messages).map(([type, message]) => (
+                                    <p key={type}>{message}</p>
+                                ))
+                            }
+                        />
+                        <p></p>
                     <input type="submit" className="btn submit" value="Login" />
+                   
                     <p className="field">
                         <span>If you don't have profile click <Link to="/register">here</Link></span>
                     </p>

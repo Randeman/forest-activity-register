@@ -4,7 +4,7 @@ footer {
     position: fixed;
     background-color: #67a50b;
     text-align: center;
-    padding:10px 0;
+    padding: 0.5em;
     width: 100%;
  
  
@@ -12,6 +12,7 @@ footer {
 
 #scroll{
     position: fixed;
+   
     font-size: 14px;
     bottom: 10px;
     right: 50px;

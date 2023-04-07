@@ -1,14 +1,17 @@
 main {
     width: 100%;
-    margin: 0 auto;
-    
+    flex: 1 1 auto;
+    padding: 2em;
   }
 
 body {
-  
+  display: flex;
+  flex-direction: column;
     padding-top: 30px;
     padding-bottom: 30px;
-background-color: #b8f6f8;;
+background-color: #b8f6f8;
+margin: 0;
+  padding: 0;
    
   }
 
@@ -23,3 +26,6 @@ background-color: #b8f6f8;;
  
  
 }
+
+
+
