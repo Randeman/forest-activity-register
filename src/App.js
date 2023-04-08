@@ -11,8 +11,8 @@ import { Home } from './components/Home/Home';
 import { Login } from "./components/Login/Login";
 import { Logout } from "./components/Logout/Logout";
 import { Register } from "./components/Register/Register";
-import {Activities} from "./components/Activities/Activities";
-import {CreateActivity} from "./components/CreateActivity/CreateActivity";
+import { Activities } from "./components/Activities/Activities";
+import { CreateActivity } from "./components/CreateActivity/CreateActivity";
 import { EditActivity } from './components/EditActivity/EditActivity';
 import { ActivityDetails } from './components/ActivityDetails/ActivityDetails';
 import { Footer } from "./components/Footer/Footer";
@@ -24,7 +24,7 @@ const App = () => {
 
   const [activities, setActivities] = useState([]);
   const activityService = activityServiceFactory(); //auth.accessToken
-  
+
   useEffect(() => {
     activityService.getAll()
       .then(result => {
@@ -52,10 +52,14 @@ const App = () => {
   const onDeleteActivitySubmit = async function (activityId) {
     await activityService.delete(activityId);
 
-    setActivities(state => state.filter(x => x._id !== activityId)).map(x => x);
+    setActivities(state => state?.filter(x => x._id !== activityId))?.map(x => x);
 
     navigate("/activities");
   }
+
+
+
+
 
 
   return (
@@ -65,20 +69,29 @@ const App = () => {
           <Navigation />
         </header>
         <main className="app-main">
-        <MapProvider >
           <Routes>
             <Route path='/' element={<Home activities={activities} />} />
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/activities' element={<Activities activities={activities} />} />
-            <Route path='/create' element={<CreateActivity onCreateActivitySubmit={onCreateActivitySubmit} />} />
-            <Route path='/activities/:activityId' element={<ActivityDetails  onDeleteActivitySubmit={onDeleteActivitySubmit}/>} />
-            <Route path='/activities/:activityId/edit' element={<EditActivity onEditActivitySubmit={onEditActivitySubmit} />} />
+            <Route path='/activities' element={<MapProvider>
+              <Activities activities={activities} />
+            </MapProvider>} />
+            <Route path='/create' element={
+              <MapProvider>
+                <CreateActivity  onCreateActivitySubmit={onCreateActivitySubmit} />
+              </MapProvider>} />
+            <Route path='/activities/:activityId' element={
+              <MapProvider>
+                <ActivityDetails onDeleteActivitySubmit={onDeleteActivitySubmit} />
+              </MapProvider>} />
+            <Route path='/activities/:activityId/edit' element={
+              <MapProvider>
+                <EditActivity onEditActivitySubmit={onEditActivitySubmit} />
+              </MapProvider>} />
           </Routes>
-        </MapProvider>
         </main>
-         <Footer />      
+        <Footer />
       </AuthProvider >
     </>
   );

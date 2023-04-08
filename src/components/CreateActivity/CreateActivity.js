@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 
+import { Controls, FullScreenControl, MousePositionControl } from "../Map/Controls";
+import { Layers, TileLayer } from "../Map/Layers";
+import { osm } from "../Map/Source";
 import { Draw, Modify, Snap } from 'ol/interaction.js';
 import { Vector as VectorSource } from 'ol/source.js';
 import { Vector as VectorLayer } from 'ol/layer.js';
 import { get } from 'ol/proj.js';
 import GeoJSON from "ol/format/GeoJSON";
-import { osm } from "../Map/Source";
 import { featureStyles as FeatureStyles } from "../Map/Features/Styles";
-import { Controls, FullScreenControl, MousePositionControl } from "../Map/Controls";
-import { Layers, TileLayer } from "../Map/Layers";
 
 import MapContext from "../../contexts/MapContext";
 import "./CreateActivity.css"
@@ -39,12 +39,6 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
     const navigate = useNavigate();
 
     const { map, onZoom, onLoadFile, downloadLinkGeo } = useContext(MapContext);
-
-    const [isLoadedMap, setIsLoadedMap] = useState(false);
-
-    useEffect(() => {
-        setIsLoadedMap(true);
-    }, [])
 
     const [geomType, setGeomType] = useState("");
 
@@ -200,18 +194,6 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
 
     }
 
-    // const [downloadLinkGeo, setDownloadLinkGeo] = useState('')
-    // const loadFile = () => {
-
-    //     const blob = new Blob([figure], { type: "aplication/json" });
-    //     if (downloadLinkGeo !== '') window.URL.revokeObjectURL(downloadLinkGeo)
-    //     setDownloadLinkGeo(window.URL.createObjectURL(blob));
-
-    // }
-
-    // useEffect(() => {
-    //     return () => onLoadFile(figure)
-    // }, [figure])
 
     const onFigureDelete = (e) => {
         e.preventDefault();
@@ -242,16 +224,22 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
 
     }
 
+    const [isLoadedMap, setIsLoadedMap] = useState(false);
+
+    useEffect(() => {
+
+        setIsLoadedMap(true);
+    }, [])
+
+
 
 
     //onBlur={e => {window.confirm('If a figure has been drawn, it will be deleted!') && onFigureDelete(e)}}
 
     return (
         <>
-
             <Layers>
                 <TileLayer source={osm()} zIndex={0} />
-                {/* <VectorLayer /> */}
             </Layers>
             <Controls>
                 <FullScreenControl />
@@ -337,7 +325,7 @@ export const CreateActivity = ({ onCreateActivitySubmit }) => {
                                     if (v < new Date(watch("time")))
                                         return "*Start date should be later than current time."
                                 }
-                                  
+
                             }
 
                         })} />

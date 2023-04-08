@@ -1,0 +1,99 @@
+.welcome-content {
+  display: flex;
+  justify-content: flex-start;
+  background: url(https://a-static.besthdwallpaper.com/aerial-view-of-pine-trees-wallpaper-3554x1999-32298_53.jpg);
+  height: 700px;
+  
+}
+
+.welcome-content-text {
+  display: flex;
+  width: 350px;
+  margin-left: 10%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  left: 50px;
+}
+
+.welcome-content-text h1 {
+  font-size: 60px;
+  margin: 0px;
+  color: white;
+  font-weight: 400;
+}
+
+.welcome-content-text p {
+  color: white;
+}
+
+h1.bold-welcome {
+  font-weight: 800;
+}
+
+.welcome-content-image {
+  width: 600px;
+  position: relative;
+  top: 64px;
+  left: 80px;
+  
+}
+
+.welcome-content-image img {
+  width: 70%;
+  border-radius: 20%/ 40px 40px 40px 40px;
+  
+}
+
+#link {
+	color: #306108;
+	font-size: 15px;
+	border-radius: 5px;
+	border: solid 2px #268a16;
+	text-shadow: 1px 1px 0px #aade7c;
+	box-shadow: inset 1px 1px 2px 0px #c9efab;
+	text-decoration: none;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	font-family: Arial;
+	font-weight: bold;
+	background: linear-gradient(180deg, #77d42a 10%, #5cb811 100%);
+	display: block;
+	align-items: center;
+	margin: 10px 10px 10px 0;
+	padding:4px 25px;
+	
+}
+#link:hover {
+	background: linear-gradient(180deg, #85f827 10%, #36640f 100%);
+}
+
+.last {
+  display: inline-flex;
+  justify-content:center;
+  border: #268a16;
+  height: 300px;
+  
+}
+
+.sorted{
+  padding: 0 40px 0 10px;
+  
+  border: 7px solid green;
+  
+  margin: 15px 15px;
+  padding: 3px 30px 3px 30px;
+  border-radius: 12px;
+}
+
+h5{
+  padding: 0 40px 0 10px;
+  
+  border: 7px solid green;
+  
+  margin: 15px 15px;
+  padding: 3px 30px 3px 30px;
+  border-radius: 12px;
+}

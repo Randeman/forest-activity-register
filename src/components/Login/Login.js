@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 
 import { useAuthContext } from "../../contexts/AuthContext";
+import "./Login.css"
 
 export const Login = () => {
    
@@ -12,7 +13,7 @@ export const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({ criteriaMode: 'all' });
 
     const onSubmit = (data) => {
-        console.log(data);
+        
         onLoginSubmit(data);
 
     }
@@ -35,8 +36,8 @@ export const Login = () => {
                     <input
                         type="password"
                         id="login-password"
-                        {...register("password", { required: "Please enter a password.", 
-                        minLength: {value:3, message: "*Your password must be at least 3 characters."}})}
+                        {...register("password", { required: "*Please enter a password.", 
+                        minLength: {value: 3, message: "*Your password must be at least 3 characters."}})}
                     />
                      <ErrorMessage
                             errors={errors}
@@ -60,4 +61,3 @@ export const Login = () => {
     );
 }
 
-// export default withAuth(Login);

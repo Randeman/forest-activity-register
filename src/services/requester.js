@@ -24,19 +24,20 @@ const requester = async (method, token, url, data) => {
         const response = await fetch(url, options);
 
         if (response.status === 204) {
-            return {};
+            return response;
         }
 
         const result = await response.json();
 
         if (!response.ok) {
-            throw result;
+            throw new Error(result.message);
         }
 
         return result;
 
     } catch (err) {
-        return {};
+        alert(err.message);
+        throw err;
     }
 
 }

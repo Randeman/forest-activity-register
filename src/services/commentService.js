@@ -13,6 +13,8 @@ export const getAll = async (activityId) => {
     return comments;
 };
 
+
+
 export const create = async (activityId, comment) => {
     const result = await request.post(baseUrl, { activityId, comment });
 

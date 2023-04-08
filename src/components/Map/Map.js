@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, memo } from "react"
 import "./Map.css";
 import MapContext from "../../contexts/MapContext";
 
@@ -8,12 +8,12 @@ import { fromLonLat } from 'ol/proj';
 
 
 const MapProvider = ({ children }) => {
-
+    
     const mapRef = useRef();
     const [map, setMap] = useState(null);
-
+        
     const center = fromLonLat([25.328343, 42.897759]);
-    const zoom = 7;
+    const zoom = 3;
 
     // on component mount
     useEffect(() => {
@@ -27,7 +27,7 @@ const MapProvider = ({ children }) => {
         let mapObject = new Map(options);
         mapObject.setTarget(mapRef.current);
         setMap(mapObject);
-
+        
         return () => mapObject.setTarget(undefined);
     }, []);
 
@@ -63,10 +63,13 @@ const MapProvider = ({ children }) => {
     }
 
 
+    
 
     return (
         <MapContext.Provider value={{ map, onZoom, onLoadFile, downloadLinkGeo }}>
-            <div ref={mapRef} className="ol-map">{children}</div>
+            {<div ref={mapRef} className="ol-map">
+            {children}
+            </div>}
         </MapContext.Provider>
     )
 }

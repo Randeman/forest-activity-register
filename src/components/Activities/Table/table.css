@@ -22,7 +22,7 @@
     margin-right: 0.5rem;
   }
   
-  input {
+  input[type="search"] {
     font-size:smaller;
     border: 1px solid gray;
     padding: 0.5rem;

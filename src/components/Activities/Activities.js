@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useId } from "react";
 
 import { Layers, TileLayer, VectorLayer } from "../Map/Layers";
 import { osm, vector } from "../Map/Source";
@@ -8,14 +8,14 @@ import { Controls, FullScreenControl, MousePositionControl } from "../Map/Contro
 import { featureStyles as FeatureStyles } from "../Map/Features/Styles";
 
 import MapContext from "../../contexts/MapContext";
-
+import './Activities.css'
 import './Table/table.css'
 import { Table } from './Table/Table'
 
 
 export const Activities = ({ activities }) => {
 
-  const {  onZoom } = useContext(MapContext);
+  const { onZoom } = useContext(MapContext);
 
   const [isLoadedMap, setIsLoadedMap] = useState(false);
 
@@ -24,43 +24,44 @@ export const Activities = ({ activities }) => {
     setIsLoadedMap(true);
   }, [])
 
-  
+
   const columns = [
-    {accessor: "category", label: "Category"},
-    {accessor: "district", label: "District"},
-    {accessor: "municipality", label: "Municipality"},
-    {accessor: "land", label: "Land"},
-    {accessor: "start", label: "Start"},
-    {accessor: "end", label: "End"},
-    {accessor: "zoom", label: "Zoom"},
-    {accessor: "details", label: "Details"},
+    { accessor: "category", id: useId(), label: "Category" },
+    { accessor: "district", id: useId(), label: "District" },
+    { accessor: "municipality", id: useId(), label: "Municipality" },
+    { accessor: "land", id: useId(), label: "Land" },
+    { accessor: "start", id: useId(), label: "Start" },
+    { accessor: "end", id: useId(), label: "End" },
+    { accessor: "zoom", id: useId(), label: "Zoom" },
+    { accessor: "details", id: useId(), label: "Details" },
   ];
 
- 
-  
+
+
   return (
     <>
-      <div>
-        <Layers>
-          <TileLayer source={osm()} zIndex={0} />
-          {(!!activities.length && isLoadedMap) && activities.map(a =>
-            <VectorLayer key={a._id}
-              source={vector({
-                features: new GeoJSON()
-                  .readFeatures(JSON.parse(a.figure), { featureProjection: get("EPSG:3857") })
-              })}
-              style={FeatureStyles[JSON.parse(a.figure).features[0].geometry.type]}
-            />)}
-        </Layers>
-        <Controls >
-          <FullScreenControl />
-          <MousePositionControl />
-        </Controls>
-      </div>
-      {isLoadedMap && <p></p>}
-      {(!activities.length && isLoadedMap) && <div>"NO ACTIVITIES YET ..."</div>}
-      {(!!activities.length && isLoadedMap) && <Table onZoom={onZoom} columns={columns} rows={activities} />}
-      {/* {(!!activities.length && isLoadedMap) && activities.map(a => <div key={a._id}>`{JSON.stringify(a)}`</div>)} */}
+      <Layers>
+        <TileLayer source={osm()} zIndex={0} />
+        {(!!activities.length && isLoadedMap) && activities.map(a =>
+          <VectorLayer key={a._id}
+            source={vector({
+              features: new GeoJSON()
+                .readFeatures(JSON.parse(a.figure), { featureProjection: get("EPSG:3857") })
+            })}
+            style={FeatureStyles[JSON.parse(a.figure).features[0].geometry.type]}
+          />)}
+      </Layers>
+      <Controls >
+        <FullScreenControl />
+        <MousePositionControl />
+      </Controls>
+      {isLoadedMap && <hr></hr>}
+      {(!activities.length && isLoadedMap) && <h3>"NO ACTIVITIES YET ..."</h3>}
+      {(!!activities.length && isLoadedMap) && <section id="content">
+        {<p></p>}
+        <Table onZoom={onZoom} columns={columns} rows={activities} />
+      </section>}
+      {isLoadedMap && <hr></hr>}
     </>
   )
 }

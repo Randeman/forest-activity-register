@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom';
 import { sortRows, filterRows, paginateRows } from './helpers'
 import { Pagination } from './Pagination/Pagination'
 
@@ -65,7 +66,7 @@ export const Table = ({ columns, rows, onZoom }) => {
                 }
               }
               return (
-                <th key={column.accessor}>
+                <th key={column.accessor + column.id}>
                   <span>{column.label}</span>
                   {["zoom", "details"]
                     .includes(column.accessor)
@@ -79,12 +80,12 @@ export const Table = ({ columns, rows, onZoom }) => {
             {columns.map((column) => {
                 
               return (
-                <th>
+                <th key={`${column.id}-head`}>
                   {["zoom", "details"]
                     .includes(column.accessor)
                     ? "⛔"
                     : <input
-                    key={`${column.accessor}-search`}
+                    key={`${column.id}-search`}
                     type="search"
                     placeholder={`Search ${column.label}`}
                     value={filters[column.accessor]}
@@ -101,19 +102,19 @@ export const Table = ({ columns, rows, onZoom }) => {
               <tr key={row._id}>
                 {columns.map((column) => {
                   if (column.accessor === "zoom") {
-                    return <td key={column.accessor}>{
+                    return <td key={column.accessor + row._id}>{
                         <button type='zoom' onClick={() => onZoom(row.zoomPointCoordinates)}>🔍</button>
                         }</td>
                   }
                   if (column.accessor === "details") {
-                    return <td key={column.accessor}>{
-                        <a href={`activities/${row._id}`}>View</a>
+                    return <td key={column.accessor + row._id}>{
+                        <Link to={`/activities/${row._id}`}>View</Link>
                         }</td>
                   }
                   if (column.accessor === "start" || column.accessor === "end") {
-                    return <td key={column.accessor}>{row[column.accessor].replace("T", " ").slice(0, 16)}</td>
+                    return <td key={column.accessor + row._id}>{row[column.accessor].replace("T", " ").slice(0, 16)}</td>
                   }
-                  return <td key={column.accessor}>{row[column.accessor]}</td>
+                  return <td key={column.accessor + row._id}>{row[column.accessor]}</td>
                 })}
               </tr>
             )

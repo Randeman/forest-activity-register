@@ -4,17 +4,17 @@ import { useContext } from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 
 function Navigation() {
-    const { isAuthenticated, userEmail } = useContext(AuthContext);
+    const { isAuthenticated, email } = useContext(AuthContext);
 
     return (
         <nav style={{marginLeft:"30px"}}>
             {isAuthenticated && (
                     <div id="user">
-                        <span>{userEmail}</span>
                         <NavLink style={{marginLeft:"20px"}} to="/">Home</NavLink>
                         <NavLink style={{marginLeft:"20px"}} to="/activities">Activities</NavLink>
                         <NavLink style={{marginLeft:"20px"}} to="/create">Create Activity</NavLink>
-                        <NavLink style={{marginLeft:"20px"}} to="/logout">Logout</NavLink>
+                        <span style={{marginLeft:"90px"}}>{email}</span>
+                        <NavLink to="/logout">Logout</NavLink>
                     </div>
                 )}
                 {!isAuthenticated && (

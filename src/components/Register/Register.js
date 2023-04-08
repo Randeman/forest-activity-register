@@ -5,47 +5,55 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export const Register = () => {
     const { onRegisterSubmit } = useContext(AuthContext);
-    const { values, changeHandler, onSubmit } = useForm({
-        email: '',
-        password: '',
-        confirmPassword: '',
-    }, onRegisterSubmit);
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({ criteriaMode: 'all' });
+
+    const onSubmit = (data) => {
+        console.log(data);
+        onRegisterSubmit(data);
+
+    }
+
 
     return (
         <section id="register-page" className="content auth">
-            <form id="register" method="post" onSubmit={onSubmit}>
+            <form id="register" method="post" onSubmit={handleSubmit(onSubmit)}>
                 <div className="container">
                     <div className="brand-logo"></div>
                     <h1>Register</h1>
-
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"
                         id="email"
-                        name="email"
-                        placeholder="maria@email.com"
-                        value={values.email}
-                        onChange={changeHandler}
+                        {...register("email", { required: "*Please enter a email." })}
                     />
-
+{errors.email ? <p>{errors.email.message}</p> : <p></p>}
                     <label htmlFor="pass">Password:</label>
                     <input
                         type="password"
-                        name="password"
                         id="register-password"
-                        value={values.password}
-                        onChange={changeHandler}
+                        {...register("password", { required: "*Please enter a password.", 
+                        minLength: {value: 3, message: "*Your password must be at least 3 characters."}})}
                     />
-
+                    {errors.password ? <p>{errors.password.message}</p> : <p></p>}
                     <label htmlFor="con-pass">Confirm Password:</label>
                     <input
                         type="password"
-                        name="confirmPassword"
                         id="confirm-password"
-                        value={values.confirmPassword}
-                        onChange={changeHandler}
-                    />
+                        {...register("repassword",
+                        {
+                            required: "*Please confirm the password.",
+                            validate: {
+                                assertPassword: (v) => {
+                                    if (v !== "" && v !== watch("password"))
+                                        return "*The password confirmation does not match."
 
+                                    
+                                }
+                             
+                            }
+                        })} />
+                    {errors.repassword ? <p>{errors.repassword.message}</p> : <p></p>}
                     <input className="btn submit" type="submit" value="Register" />
 
                     <p className="field">
