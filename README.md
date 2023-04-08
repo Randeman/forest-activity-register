@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+<h1 align="center" id="title">Forest Activity Register</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  
+  
+<h2>🧐 Features</h2>
 
-## Available Scripts
+Here're some of the project's best features:
 
-In the project directory, you can run:
+*   Public Part (Accessible without authentication) The public part of the project is visible without authentication Home page Activities page Activity Details page Navigation menu: Giving access only to the pages intended for users with free access - home page actities page login and registrer Acttivities: Showing all activities and their short content Activity Details page: Showing current activitiy with full content - category description place coordinates dates comments etc.
+*   Private Part (Available for Registered Users) Registered users have personal areas in the web application accessible after their successful login: Create new activity edit and delete.
+*   Additional functionality: Dynamic Form Validation Demonstrates use of programming concepts - React Hooks Context API Integration of the following APIs: https://www.geonames.org/ - administrative data (district municipality land) for the place of activity based on coordinates http://worldtimeapi.org/ - accurate IP-based time to avoid antidating Ьuthentication
 
-### `npm start`
+<h2>🍰 Contribution Guidelines:</h2>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   Screens (Pages) Home Page (home page) - home page for unregistered users 
+*   Login / Register - registration with e-mail and password 
+*   Activities - table with sortingq searching and pagination of all registered activities 
+*   Details Page - a page giving information about a specific activity 
+*   Create Page - page for creating new activity
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  
+  
+<h2>💻 Built with</h2>
 
-### `npm test`
+Technologies used in the project:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   OpenLayers v7.3.0
+*   React.JS NodeJS JavaScript CSS HTML
+*   https://github.com/softuni-practice-server/
